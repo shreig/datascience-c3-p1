@@ -500,9 +500,9 @@ names(means_of_subject_activity)[2] &lt;- &quot;activity&quot;</code></pre>
 <div id="write-the-data-sets-to-storage" class="section level2">
 <h2>5. Write the Data sets to Storage</h2>
 <p>The first Tidy data set is on tidy_dataset</p>
-<pre><code>write.csv(tidy_dataset, &quot;Data/ds1.csv&quot;, row.names = FALSE)</code></pre>
+<pre><code>write.table(tidy_dataset, &quot;Data/ds1.txt&quot;, row.names = FALSE)</code></pre>
 <p>The second data set is on means_of_subject_activity</p>
-<pre><code>write.csv(means_of_subject_activity, &quot;Data/ds2.csv&quot;, row.names = FALSE)</code></pre>
+<pre><code>write.table(means_of_subject_activity, &quot;Data/ds2.txt&quot;, row.names = FALSE)</code></pre>
 </div>
 
 
