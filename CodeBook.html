@@ -477,22 +477,32 @@ test_subject &lt;- read.table(testFile_subject, header = FALSE,
 </div>
 <div id="extracts-only-the-measurements-on-the-mean-and-standard-deviation-for-each-measurement" class="section level2">
 <h2>2. Extracts only the measurements on the mean and standard deviation for each measurement:</h2>
-<p>For extracting just the mean and standard deviation measurement we use the select function from dplyr, and use a regular expression to filter out this with <code>mean..($|.[XYZ]$)</code> and <code>std..($|.[XYZ}$])</code>.</p>
+<p>For extracting just the mean and standard deviation measurement we use the select function from dplyr, and use a regular expression to filter out this, matching <code>mean..($|.[XYZ]$)</code>, <code>std..($|.[XYZ}$])</code>, <code>activity</code> and <code>subject</code>.</p>
 <pre><code>tidy_dataset &lt;- project_dataset %&gt;% select(matches(&quot;mean..($|.[XYZ]$)&quot;), matches(&quot;std..($|.[XYZ]$)&quot;), matches(&quot;activity&quot;), matches(&quot;subject&quot;))</code></pre>
-<div id="uses-descriptive-activity-names-to-name-the-activities-in-the-data-set" class="section level3">
-<h3>Uses descriptive activity names to name the activities in the data set</h3>
-<p>levels(tidy_dataset<span class="math inline">\(activity) &lt;- activity_labels\)</span>activity_label</p>
+<p>With the previous statement we store the features with mean(), std(), activity and subject to the tidy_dataset variable.</p>
 </div>
-<div id="this-create-a-second-tidy-data-set-with-the-average-of-each-variable-for-activity-and-subject" class="section level3">
-<h3>This create a second tidy data set with the average of each variable for activity and subject</h3>
-<p>means_of_subject_activity &lt;- aggregate(x=select(tidy_dataset,-c(‘subject’, ‘activity’)), by=list(tidy_dataset<span class="math inline">\(subject, tidy_dataset\)</span>activity), FUN=mean) names(means_of_subject_activity)[1] &lt;- “subject” names(means_of_subject_activity)[2] &lt;- “activity”</p>
+<div id="uses-descriptive-activity-names-to-name-the-activities-in-the-data-set" class="section level2">
+<h2>3. Uses descriptive activity names to name the activities in the data set</h2>
+<p>For this we use a factor to label the activities, we previously loaded the activity labels to the activity_labels data set:</p>
+<pre><code>levels(tidy_dataset$activity) &lt;- activity_labels$activity_label</code></pre>
 </div>
+<div id="label-the-features-and-create-a-second-tidy-data-set-with-the-average-of-each-variable-for-activity-and-subject" class="section level2">
+<h2>4. Label the features and create a second tidy data set with the average of each variable for activity and subject</h2>
+<p>We will use the aggregate function to group by subject and activity the tidy_dataset and then</p>
+<pre><code>means_of_subject_activity &lt;- aggregate(x=select(tidy_dataset,-c(&#39;subject&#39;, &#39;activity&#39;)), 
+      by=list(tidy_dataset$subject, tidy_dataset$activity),
+      FUN=mean)
+      </code></pre>
+<p>Then we use descriptive variable names:</p>
+<pre><code>names(means_of_subject_activity)[1] &lt;- &quot;subject&quot;
+names(means_of_subject_activity)[2] &lt;- &quot;activity&quot;</code></pre>
 </div>
-<div id="the-first-tidy-data-set-is-on-tidy_dataset" class="section level1">
-<h1>The first Tidy data set is on tidy_dataset</h1>
-</div>
-<div id="the-second-data-set-is-on-means_of_subject_activity" class="section level1">
-<h1>The second data set is on means_of_subject_activity</h1>
+<div id="write-the-data-sets-to-storage" class="section level2">
+<h2>5. Write the Data sets to Storage</h2>
+<p>The first Tidy data set is on tidy_dataset</p>
+<pre><code>write.csv(tidy_dataset, &quot;Data/ds1.csv&quot;, row.names = FALSE)</code></pre>
+<p>The second data set is on means_of_subject_activity</p>
+<pre><code>write.csv(means_of_subject_activity, &quot;Data/ds2.csv&quot;, row.names = FALSE)</code></pre>
 </div>
 
 
