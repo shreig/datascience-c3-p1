@@ -477,7 +477,8 @@ test_subject &lt;- read.table(testFile_subject, header = FALSE,
 </div>
 <div id="extracts-only-the-measurements-on-the-mean-and-standard-deviation-for-each-measurement" class="section level2">
 <h2>2. Extracts only the measurements on the mean and standard deviation for each measurement:</h2>
-<p>tidy_dataset &lt;- project_dataset %&gt;% select(matches(“mean..(<span class="math inline">\(|.[XYZ]\)</span>)”), matches(“std..(<span class="math inline">\(|.[XYZ]\)</span>)”), matches(“activity”), matches(“subject”))</p>
+<p>For extracting just the mean and standard deviation measurement we use the select function from dplyr, and use a regular expression to filter out this with <code>mean..($|.[XYZ]$)</code> and <code>std..($|.[XYZ}$])</code>.</p>
+<pre><code>tidy_dataset &lt;- project_dataset %&gt;% select(matches(&quot;mean..($|.[XYZ]$)&quot;), matches(&quot;std..($|.[XYZ]$)&quot;), matches(&quot;activity&quot;), matches(&quot;subject&quot;))</code></pre>
 <div id="uses-descriptive-activity-names-to-name-the-activities-in-the-data-set" class="section level3">
 <h3>Uses descriptive activity names to name the activities in the data set</h3>
 <p>levels(tidy_dataset<span class="math inline">\(activity) &lt;- activity_labels\)</span>activity_label</p>

@@ -82,7 +82,9 @@ names(means_of_subject_activity)[1] <- "subject"
 names(means_of_subject_activity)[2] <- "activity"
 
 # The first Tidy data set is on tidy_dataset
+write.csv(tidy_dataset, "Data/ds1.csv", row.names = FALSE)
 
 # The second data set is on means_of_subject_activity
+write.csv(means_of_subject_activity, "Data/ds2.csv", row.names = FALSE)
 
 

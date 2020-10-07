@@ -131,19 +131,43 @@ The same for the test data set:
 
 ## 2. Extracts only the measurements on the mean and standard deviation for each measurement:
 
+For extracting just the mean and standard deviation measurement we use the select function 
+from dplyr, and use a regular expression to filter out this, matching `mean..($|.[XYZ]$)`,  `std..($|.[XYZ}$])`, `activity` and `subject`.
+
+
     tidy_dataset <- project_dataset %>% select(matches("mean..($|.[XYZ]$)"), matches("std..($|.[XYZ]$)"), matches("activity"), matches("subject"))
 
-### Uses descriptive activity names to name the activities in the data set
-levels(tidy_dataset$activity) <- activity_labels$activity_label
+With the previous statement we store the features with mean(), std(), activity and subject to the tidy_dataset variable. 
 
 
-### This create a second tidy data set with the average of each variable for activity and subject
-means_of_subject_activity <- aggregate(x=select(tidy_dataset,-c('subject', 'activity')), 
+## 3. Uses descriptive activity names to name the activities in the data set
+For this we use a factor to label the activities, we previously loaded the activity labels 
+to the activity_labels data set:
+
+    levels(tidy_dataset$activity) <- activity_labels$activity_label
+
+
+## 4. Label the features and create a second tidy data set with the average of each variable for activity and subject
+
+We will use the aggregate function to group by subject and activity the tidy_dataset and 
+then 
+
+    means_of_subject_activity <- aggregate(x=select(tidy_dataset,-c('subject', 'activity')), 
           by=list(tidy_dataset$subject, tidy_dataset$activity),
           FUN=mean)
-names(means_of_subject_activity)[1] <- "subject"
-names(means_of_subject_activity)[2] <- "activity"
+          
+Then we use descriptive variable names:          
 
-# The first Tidy data set is on tidy_dataset
+    names(means_of_subject_activity)[1] <- "subject"
+    names(means_of_subject_activity)[2] <- "activity"
 
-# The second data set is on means_of_subject_activity
+## 5. Write the Data sets to Storage
+
+The first Tidy data set is on tidy_dataset
+
+    write.csv(tidy_dataset, "Data/ds1.csv", row.names = FALSE)
+
+The second data set is on means_of_subject_activity
+
+    write.csv(means_of_subject_activity, "Data/ds2.csv", row.names = FALSE)
+
